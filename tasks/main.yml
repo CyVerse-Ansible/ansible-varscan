@@ -1,0 +1,17 @@
+---
+
+- name: Gather OS specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+
+- name: Install Java
+  package:
+    name: "{{ JAVA }}"
+    state: present
+
+- name: Download varscan
+  get_url:
+    url: "https://sourceforge.net/projects/varscan/files/VarScan.v{{ VERSION }}.jar"
+    dest: "/home/{{ ATMOUSERNAME }}/VarScan.jar"
